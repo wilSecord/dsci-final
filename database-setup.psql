@@ -1,0 +1,60 @@
+BEGIN;
+
+CREATE TABLE cards (
+oracle_id CHAR(36) PRIMARY KEY,
+name VARCHAR(256),
+released_at DATE,
+layout VARCHAR(24),
+mana_cost VARCHAR(48),
+cmc DECIMAL(10, 2),
+type_line VARCHAR(100),
+oracle_text VARCHAR(1024),
+reserved BOOLEAN,
+foil BOOLEAN,
+nonfoil BOOLEAN,
+set VARCHAR(5),
+set_name VARCHAR(64),
+set_type VARCHAR(30),
+rarity VARCHAR(10),
+flavor_text VARCHAR(1024),
+artist VARCHAR(255),
+border_color VARCHAR(10),
+frame VARCHAR(6),
+power VARCHAR(3),
+toughness VARCHAR(3),
+loyalty VARCHAR(5),
+color_identity_has_b BOOLEAN,
+color_identity_has_g BOOLEAN,
+color_identity_has_r BOOLEAN,
+color_identity_has_u BOOLEAN,
+color_identity_has_w BOOLEAN,
+colors_has_b BOOLEAN,
+colors_has_g BOOLEAN,
+colors_has_r BOOLEAN,
+colors_has_u BOOLEAN,
+colors_has_w BOOLEAN,
+games_has_arena BOOLEAN,
+games_has_astral BOOLEAN,
+games_has_mtgo BOOLEAN,
+games_has_paper BOOLEAN,
+games_has_sega BOOLEAN
+);
+
+CREATE TABLE rulings (
+    card_id CHAR(36),
+    published_at DATE,
+    ruling_text VARCHAR(1024),
+    CONSTRAINT FK_card_id FOREIGN KEY (card_id) REFERENCES cards(oracle_id)
+);
+
+CREATE INDEX idx_rulings_card_id ON rulings(card_id);
+
+CREATE TABLE keywords (
+    card_id CHAR(36),
+    keyword_text VARCHAR(1024),
+    CONSTRAINT FK_card_id FOREIGN KEY (card_id) REFERENCES cards(oracle_id)
+);
+
+CREATE INDEX idx_keywords_card_id ON keywords(card_id);
+
+COMMIT;
